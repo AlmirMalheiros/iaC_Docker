@@ -1,0 +1,66 @@
+#Atualizar o sistema
+ apt update -y
+ apt upgrade -y 
+
+
+#Baixar e instalar o docker 
+ curl -fsSL https://get.docker.com -o get-docker.sh -y
+ sudo sh get-docker.sh -y
+
+#Visualizar a versao do docker
+
+ docker version
+
+#Verificar o status do serviço
+
+ systemctl status docker
+
+Baixar a imagem do container msql
+ docker pull mysql -y
+
+#visualizar imagens disponiveis
+ docker images
+
+#Executar container mysql(necessário configurar variaveis de ambiente)
+ docker run -e MYSQL_ROOT_PASSWORD=Senha123 -d --name mysql-A -p 3306:3306 mysql
+
+#Entrar no bash do container Ubuntu-A
+ docker exec -ti mysql-A bash
+
+cd /
+
+ls -l
+
+#Logar no mysql
+ mysql -u root -p --protocol=tcp 
+ Senha123
+
+#Criando banco de dados shiba
+ create database shiba;
+ use shiba;
+ 
+#CREATE TABLE dados (
+    AlunoID int,
+    Nome varchar(50),
+    Sobrenome varchar(50),
+    Endereco varchar(150),
+    Cidade varchar(50),
+    Host varchar(50)
+);
+
+
+#Saindo do modo mysql e do container
+exit
+exit
+
+#Criando um volume na raiz do host
+mkdir /data/mysql-A
+
+#Mapeando o container para o host
+ docker run -e MYSQL_ROOT_PASSWORD=Senha123 --name mysql-A -d -p 3306:3306 --volume=/data/mysql-A:/var/lib/mysql mysql
+
+#Crianvo volumes app e data
+
+docker volume create app
+
+docker volume create data
